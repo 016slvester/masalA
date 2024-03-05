@@ -1,10 +1,15 @@
 from tkinter import *
 import pandas as pd 
 from tkinter import messagebox
+import numpy as np
 
 root = Tk()
 root.attributes("-fullscreen" , True )
 root.config(bg= "#000000")
+
+
+
+    
 def homePage():
     pass
 
@@ -98,9 +103,13 @@ def goSingUP ():
 def toLogin():
     global login_data
     login_data = []
+    
     name = CAentry_user.get()
     password = CAentry_pass.get()
-
+    with open("log.txt" , "a" ) as file :
+        test_name =file.read(login_data[0])
+        test_pass =file.read(login_data[1])
+        
     if name != "":
         login_data.append(name)
     else:
@@ -113,10 +122,3 @@ def toLogin():
         login_data.append(password)
         CAframe.destroy()
         Login ()
-
-    with open("log.txt" , "a" ) as file :
-        file.write(login_data[0]+"\n")
-        file.write(login_data[1]+"\n")
-singup()
-
-root.mainloop()
