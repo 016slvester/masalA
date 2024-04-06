@@ -1,10 +1,10 @@
 from tkinter import *
-import pandas as pd 
+
 from tkinter import messagebox
 import numpy as np
 
 root = Tk()
-root.attributes("-fullscreen" , True )
+root.attributes("-fullscreen" , False )
 root.config(bg= "#000000")
 
 
@@ -51,7 +51,7 @@ def Login () :
     global LGentry_pass
     global LGentry_user
     
-    CAframe.destroy()
+ 
     LGframe = Frame(root, relief="solid", bg="#171717")
     LGframe.pack(expand=True)
 
@@ -81,12 +81,12 @@ def singup () :
     CAframe.pack(expand=True)
 
     CAlabel_title = Label(CAframe, text='create account', bg="#171717", fg="#ffffff")
-    CAlabel_logl =  Checkbutton(CAframe, text="alredy singup", font=('Open Sans', 12), bg="#171717", fg="#ffffff" , command= Login ) 
+    CAlabel_logl =  Checkbutton(CAframe, text="alredy singup", font=('Open Sans', 12), bg="#171717", fg="#ffffff" , command= goLogin ) 
     CAlabel_user = Label(CAframe, text="Create Username", font=('Open Sans', 12), bg="#171717", fg="#ffffff" )
     CAlabel_pass = Label(CAframe, text="Create Password", font=('Open Sans', 12), bg="#171717", fg="#ffffff")
     CAentry_user = Entry(CAframe, font=('Open Sans', 14))
     CAentry_pass = Entry(CAframe, show='*', font=('Open Sans', 14))
-    CAbutton_singup = Button(CAframe, text="Sign up", command=toLogin)
+    CAbutton_singup = Button(CAframe, text="Sign up", command=goLogin)
 
     CAlabel_title.pack()
     CAlabel_user.pack(padx=10, pady=5)
@@ -99,21 +99,23 @@ def singup () :
 def goSingUP ():
     LGframe.destroy()
     singup()
-
+    
+def goLogin ():
+    CAframe.destroy()
+    Login()
+    
 def toLogin():
     global login_data
     login_data = []
     
     name = CAentry_user.get()
     password = CAentry_pass.get()
-    with open("log.txt" , "a" ) as file :
-        test_name =file.read(login_data[0])
-        test_pass =file.read(login_data[1])
+
         
     if name != "":
         login_data.append(name)
     else:
-        messagebox.showerror("Error", " Nzalo does not like you ")
+        messagebox.showerror("Error", "enter usermane ")
     if password == "":
         messagebox.showerror("Error", "enter password ")
     elif len(password) <= 6:
@@ -121,4 +123,10 @@ def toLogin():
     else:
         login_data.append(password)
         CAframe.destroy()
-        Login ()
+        with open("log.txt" , "a" ) as file :
+           file.writelines(login_data[0])
+           file.writelines(login_data[1])
+       
+Login ()
+ 
+root.mainloop()
